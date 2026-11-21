@@ -1,0 +1,11 @@
+# normalize text files to LF in the repo
+* text=auto
+
+# Windows-only files keep CRLF in the working copy
+*.bat      text eol=crlf
+*.rc       text eol=crlf
+*.manifest text eol=crlf
+
+# binary assets
+*.ico binary
+*.png binary

@@ -1,0 +1,51 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed to publish releases on tags
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # MinGW-w64 (g++ and windres) is preinstalled on the Windows runners
+      - name: Build
+        shell: cmd
+        run: build.bat release
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: DisplaySwitch-win64
+          path: dist/*.zip
+
+      # release notes = the CHANGELOG.md section of this version ("## 1.0.0 - ...")
+      - name: Release notes
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          $version = '${{ github.ref_name }}'.TrimStart('v')
+          $lines = Get-Content CHANGELOG.md
+          $start = ($lines | Select-String -Pattern "^## $([regex]::Escape($version))\b").LineNumber
+          if (-not $start) { throw "CHANGELOG.md has no section for $version" }
+          $notes = foreach ($line in ($lines | Select-Object -Skip $start)) {
+            if ($line -match '^## ') { break }
+            $line
+          }
+          ($notes -join "`n").Trim() | Set-Content release-notes.md -Encoding utf8
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: DisplaySwitch ${{ github.ref_name }}
+          files: dist/*.zip
+          body_path: release-notes.md   # replaces the body: rerunning never duplicates it

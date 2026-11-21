@@ -1,0 +1,45 @@
+# DisplaySwitch profiles - copy this file to profiles.yaml next to DisplaySwitch.exe.
+#
+# Run "DisplaySwitch.exe list" to see the ID of each connected monitor.
+# The ID is the monitor's EDID model code (e.g. DEL41A8): it stays the same across
+# reboots, driver reinstalls and when the cable is moved to another port.
+#
+# Keys for each monitor:
+#   id:            monitor ID from "list" (recommended)
+#   name:          part of the monitor name, e.g. "Dell" (alternative, or together
+#                  with id: to tell apart two monitors of the same model)
+#   primary:       true for the main monitor (always placed at 0,0). If no monitor is
+#                  marked, the first one is the primary.
+#   width/height:  resolution; omit both to keep the current one
+#   refresh_rate:  Hz; optional. If missing or not available, the highest one is used
+#   x / y:         position of a secondary monitor relative to the primary's top-left
+#
+# Monitors not listed in a profile are turned off when the profile is applied.
+
+profiles:
+  # Two desk monitors: main one at 144 Hz, second one on its left
+  desk:
+    - id: GSM5B7F       # placeholder: put your main monitor ID here
+      primary: true
+      width: 2560
+      height: 1440
+      refresh_rate: 144
+    - id: DEL41A8       # placeholder: your second monitor ID
+      width: 1920
+      height: 1080
+      x: -1920
+      y: 360
+
+  # Only the main monitor
+  single:
+    - id: GSM5B7F
+      primary: true
+
+  # Streaming to a phone through a virtual display driver (e.g. Virtual Display
+  # Driver by MikeTheTech, ID MTT1337) for game streaming
+  stream-phone:
+    - id: MTT1337
+      primary: true
+      width: 2400
+      height: 1080
+      refresh_rate: 60

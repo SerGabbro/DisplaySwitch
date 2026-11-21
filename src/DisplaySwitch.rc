@@ -1,0 +1,41 @@
+#include <windows.h>
+#include "version.h"
+
+// application icon (the first icon resource is the one Explorer shows)
+1 ICON "../assets/DisplaySwitch.ico"
+
+// manifest: Windows 10/11, per-monitor DPI aware (real pixel positions), UTF-8.
+// Language-neutral so it replaces the default manifest MinGW links in, instead
+// of clashing with it ("multiple non-default manifests")
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "DisplaySwitch.manifest"
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     DS_VERSION_MAJOR, DS_VERSION_MINOR, DS_VERSION_PATCH, 0
+PRODUCTVERSION  DS_VERSION_MAJOR, DS_VERSION_MINOR, DS_VERSION_PATCH, 0
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+FILEFLAGS       0
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName",      DS_PRODUCT_NAME
+            VALUE "FileDescription",  DS_DESCRIPTION
+            VALUE "FileVersion",      DS_VERSION_STRING
+            VALUE "InternalName",     DS_PRODUCT_NAME
+            VALUE "LegalCopyright",   DS_COPYRIGHT
+            VALUE "OriginalFilename", "DisplaySwitch.exe"
+            VALUE "ProductName",      DS_PRODUCT_NAME
+            VALUE "ProductVersion",   DS_VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

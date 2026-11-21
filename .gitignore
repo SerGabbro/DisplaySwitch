@@ -1,0 +1,15 @@
+# build output
+DisplaySwitch.exe
+build/
+dist/
+
+# runtime files
+*.log
+*.log.old
+
+# personal profiles (profiles.example.yaml is the template in the repo)
+profiles.yaml
+
+# tools
+__pycache__/
+*.pyc
